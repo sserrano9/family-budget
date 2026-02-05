@@ -390,26 +390,26 @@
 <div class="container">
     
     <header>
-        <h1 id="headerTitle">Family Hub</h1>
-        <p id="headerSubtitle">Tracking & Planning</p>
+        <h1 id="headerTitle">Familia Serrano</h1>
+        <p id="headerSubtitle">Gastos y Planificación</p>
     </header>
 
     <div id="view-dashboard">
         
         <div id="wasteAlert" class="waste-alert hidden">
-            <h4>⏰ Eat These Soon!</h4>
+            <h4>⏰ Comer Pronto!</h4>
             <div id="wasteList"></div>
         </div>
 
         <div class="glass-card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <h3 style="margin:0">Overview</h3>
+                <h3 style="margin:0">Resumen</h3>
                 <button onclick="editSettings()" style="background:none; border:none; font-size:1.2em; cursor:pointer;">⚙️</button>
             </div>
 
             <div class="progress-label">
-                <span>Total Spent</span>
-                <span id="budgetDisplay">$0 / $2500</span>
+                <span>Total Gastos</span>
+                <span id="budgetDisplay">$0 / $4500</span>
             </div>
             <div class="progress-track">
                 <div class="progress-fill" id="budgetProgress"></div>
@@ -443,7 +443,7 @@
 
         <div class="glass-card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                <h3 style="margin:0">Categories</h3>
+                <h3 style="margin:0">Categorias</h3>
                 <button onclick="toggleEditMode()" id="editModeBtn" style="background:none; border:none; color:var(--text-secondary); cursor:pointer; font-weight:600; font-size:0.9em;">Edit</button>
             </div>
             <div class="cat-grid" id="catGrid"></div>
@@ -470,9 +470,9 @@
                 <div class="stack-bar" id="subStackBar"></div>
                 <div class="stack-legend">
                     <span style="display:flex; align-items:center;"><span class="dot" style="background:var(--stack-stream)"></span>Stream</span>
-                    <span style="display:flex; align-items:center;"><span class="dot" style="background:var(--stack-util)"></span>Utility</span>
-                    <span style="display:flex; align-items:center;"><span class="dot" style="background:var(--stack-gym)"></span>Health</span>
-                    <span style="display:flex; align-items:center;"><span class="dot" style="background:var(--stack-other)"></span>Other</span>
+                    <span style="display:flex; align-items:center;"><span class="dot" style="background:var(--stack-util)"></span>Utilitdades</span>
+                    <span style="display:flex; align-items:center;"><span class="dot" style="background:var(--stack-gym)"></span>Salud</span>
+                    <span style="display:flex; align-items:center;"><span class="dot" style="background:var(--stack-other)"></span>Otros</span>
                 </div>
             </div>
 
@@ -538,7 +538,7 @@
                     <option value="Dining">Restaurantes</option>
                     <option value="Groceries">Mercado</option>
                     <option value="Home">Home</option>
-                    <option value="Transport">Transporte</option>
+                    <option value="Transporte">Transporte</option>
                     <option value="Fun">Entretenimiento</option>
                     <option value="Bills">Servicios</option>
                 </select>
@@ -690,7 +690,7 @@
         { id: 'Groceries', icon: '🛒', color: '#10b981' }, 
         { id: 'Dining', icon: '🍔', color: '#f59e0b' },    
         { id: 'Home', icon: '🏠', color: '#6366f1' },      
-        { id: 'Transport', icon: '⛽', color: '#ef4444' }, 
+        { id: 'Transporte', icon: '⛽', color: '#ef4444' }, 
         { id: 'Fun', icon: '🎉', color: '#8b5cf6' },       
         { id: 'Bills', icon: '📄', color: '#64748b' }      
     ];
