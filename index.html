@@ -551,12 +551,12 @@
             <label style="font-size:0.8rem; font-weight:bold; color:#666; margin-top:10px; display:block;">Category & Type</label>
             <div style="display:flex; gap:10px; margin-bottom:10px;">
                 <select id="planCat">
-                    <option value="Dining">Restaurantes</option>
-                    <option value="Groceries">Mercado</option>
+                    <option value="Restaurantes">Restaurantes</option>
+                    <option value="Mercado">Mercado</option>
                     <option value="Home">Home</option>
                     <option value="Transporte">Transporte</option>
-                    <option value="Fun">Entretenimiento</option>
-                    <option value="Bills">Servicios</option>
+                    <option value="Fun">Fun</option>
+                    <option value="Servicios">Servicios</option>
                 </select>
                 <select id="planType">
                     <option value="one-time">One-Time</option>
@@ -720,12 +720,12 @@
     let shoppingMode = false;
 
     const CATEGORIES = [
-        { id: 'Groceries', icon: '🛒', color: '#10b981' }, 
-        { id: 'Dining', icon: '🍔', color: '#f59e0b' },    
+        { id: 'Mercado', icon: '🛒', color: '#10b981' }, 
+        { id: 'Restaurantes', icon: '🍔', color: '#f59e0b' },    
         { id: 'Home', icon: '🏠', color: '#6366f1' },      
         { id: 'Transporte', icon: '⛽', color: '#ef4444' }, 
         { id: 'Fun', icon: '🎉', color: '#8b5cf6' },       
-        { id: 'Bills', icon: '📄', color: '#64748b' }      
+        { id: 'Servicios', icon: '📄', color: '#64748b' }      
     ];
 
     const GROCERY_SUBS = [
@@ -800,8 +800,8 @@
         document.getElementById('detailTitle').innerText = cat;
 
         // Toggle Extras
-        const isFood = cat === 'Groceries';
-        const isSub = cat === 'Bills'; // Using Bills for Subs logic overlap if needed
+        const isFood = cat === 'Mercado';
+        const isSub = cat === 'Servicios'; // Using Servicios for Subs logic overlap if needed
         
         const subGrp = document.getElementById('subExtrasGroup');
         if(subGrp) subGrp.classList.toggle('hidden', !isSub);
@@ -952,12 +952,12 @@
         const items = data.expenses.filter(e => e.cat === activeCategory);
 
         // Plain List
-        if (activeCategory !== 'Groceries') {
+        if (activeCategory !== 'Mercado') {
             items.reverse().forEach(item => list.appendChild(createItemCard(item)));
             return;
         }
 
-        // Grouped List for Groceries
+        // Grouped List for Mercado
         let groups = {};
         GROCERY_SUBS.forEach(s => groups[s.id] = []);
         items.forEach(item => {
@@ -1055,7 +1055,7 @@
 
             const card = document.createElement('div');
             let styleClass = plan.status; 
-            if (plan.cat === 'Bills') styleClass = 'bill';
+            if (plan.cat === 'Servicios') styleClass = 'bill';
             card.className = `plan-card ${styleClass}`;
             
             let btns = '';
@@ -1138,7 +1138,7 @@
         const freq = document.getElementById('itemFreq').value;
         
         let subCat = 'other';
-        if (activeCategory === 'Groceries') {
+        if (activeCategory === 'Mercado') {
             const el = document.getElementById('selectedSubCat');
             if(el) subCat = el.value;
         }
