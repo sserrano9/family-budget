@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Family Budget v6 (Proactive)</title>
+    <title>Presupuesto Familia Serrano</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
     /* --- PREMIUM BENTO THEME --- */
@@ -535,17 +535,17 @@
             <label style="font-size:0.8rem; font-weight:bold; color:#666; margin-top:10px; display:block;">Category & Type</label>
             <div style="display:flex; gap:10px; margin-bottom:10px;">
                 <select id="planCat">
-                    <option value="Dining">Dining</option>
-                    <option value="Groceries">Groceries</option>
+                    <option value="Dining">Restaurantes</option>
+                    <option value="Groceries">Mercado</option>
                     <option value="Home">Home</option>
-                    <option value="Transport">Transport</option>
-                    <option value="Fun">Fun</option>
-                    <option value="Bills">Bills</option>
+                    <option value="Transport">Transporte</option>
+                    <option value="Fun">Entretenimiento</option>
+                    <option value="Bills">Servicios</option>
                 </select>
                 <select id="planType">
                     <option value="one-time">One-Time</option>
-                    <option value="weekly">Weekly</option>
-                    <option value="monthly">Monthly</option>
+                    <option value="weekly">Semanal</option>
+                    <option value="monthly">Mensual</option>
                 </select>
             </div>
 
@@ -592,8 +592,8 @@
                 <div style="flex:1">
                     <select id="itemFreq" onchange="calculatePreview()">
                         <option value="One-Time">One-Time</option>
-                        <option value="Monthly">Monthly</option>
-                        <option value="Weekly">Weekly</option>
+                        <option value="Monthly">Mensual</option>
+                        <option value="Weekly">Semanal</option>
                     </select>
                 </div>
             </div>
@@ -669,8 +669,8 @@
 
     // --- DATA & CONFIG ---
     let data = {
-        budget: 2500,
-        savingsGoal: 1000,
+        budget: 4500,
+        savingsGoal: 1200,
         savingsCurrent: 250,
         expenses: [],
         plans: [],
