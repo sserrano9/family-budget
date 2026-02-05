@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Budget v6 (Proactive)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+    /* --- PREMIUM BENTO THEME --- */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    :root {
+        /* Palette: Modern Fintech */
+        --bg-mesh-1: #e0c3fc;
+        --bg-mesh-2: #8ec5fc;
+        --glass-surface: rgba(255, 255, 255, 0.65);
+        --glass-border: rgba(255, 255, 255, 0.6);
+        --text-primary: #1e293b;
+        --text-secondary: #64748b;
+        
+        --accent-primary: #6366f1; /* Indigo */
+        --accent-glow: rgba(99, 102, 241, 0.4);
+        
+        --danger-surface: #fee2e2;
+        --danger-text: #991b1b;
+        --success-surface: #dcfce7;
+        --success-text: #166534;
+        --warning-surface: #fef9c3;
+        --warning-text: #854d0e;
+
+        /* Stack Colors */
+        --stack-stream: #f87171;
+        --stack-util: #60a5fa;
+        --stack-gym: #fbbf24;
+        --stack-other: #94a3b8;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background: radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                    radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+                    radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+        background-color: #f3f4f6; /* Fallback */
+        background-image: radial-gradient(at 40% 20%, var(--bg-mesh-1) 0px, transparent 50%),
+                          radial-gradient(at 80% 0%, var(--bg-mesh-2) 0px, transparent 50%),
+                          radial-gradient(at 0% 50%, #eff6ff 0px, transparent 50%);
+        background-size: 150% 150%;
+        animation: meshMove 20s ease infinite;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        padding-bottom: 110px; /* Space for nav */
+        color: var(--text-primary);
+        -webkit-font-smoothing: antialiased;
+    }
+
+    @keyframes meshMove {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .container {
+        max-width: 480px;
+        margin: 0 auto;
+        padding: 24px;
+    }
+
+    /* --- Typography & Header --- */
+    header { 
+        text-align: left; 
+        margin-bottom: 25px; 
+        padding-top: 20px; 
+        padding-left: 5px;
+    }
+    header h1 { 
+        margin: 0; 
+        font-weight: 800; 
+        font-size: 2rem; 
+        background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -1px;
+    }
+    header p { 
+        margin: 4px 0 0; 
+        color: var(--text-secondary); 
+        font-weight: 500; 
+        font-size: 0.95rem; 
+    }
+
+    /* --- The Bento Card --- */
+    .glass-card {
+        background: var(--glass-surface);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        padding: 24px;
+        box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05),
+                    0 2px 10px -2px rgba(0,0,0,0.02);
+        margin-bottom: 20px;
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+        animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        opacity: 0;
+    }
+
+    @keyframes slideUp {
+        from { transform: translateY(20px) scale(0.98); opacity: 0; }
+        to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    /* --- Inputs & Interactive --- */
+    input, select {
+        width: 100%;
+        padding: 14px 16px;
+        border: 1px solid rgba(0,0,0,0.08);
+        background: rgba(255,255,255,0.6);
+        border-radius: 16px;
+        font-family: inherit;
+        font-size: 16px;
+        color: var(--text-primary);
+        margin-bottom: 12px;
+        box-sizing: border-box;
+        transition: all 0.2s ease;
+    }
+    input:focus, select:focus {
+        background: white;
+        border-color: var(--accent-primary);
+        box-shadow: 0 0 0 4px var(--accent-glow);
+        outline: none;
+    }
+
+    .action-btn {
+        width: 100%;
+        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        color: white;
+        border: none;
+        padding: 16px;
+        border-radius: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        font-size: 1rem;
+        box-shadow: 0 8px 20px -6px var(--accent-glow);
+        transition: transform 0.1s;
+    }
+    .action-btn:active { transform: scale(0.96); }
+
+    .back-btn { 
+        background: white; 
+        border: 1px solid #e2e8f0; 
+        color: var(--text-secondary); 
+        padding: 8px 16px; 
+        border-radius: 20px; 
+        cursor: pointer; 
+        margin-bottom: 15px; 
+        font-weight: 600;
+        font-size: 0.85rem;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    }
+
+    /* --- Progress Bars (Liquid) --- */
+    .progress-label { 
+        display: flex; justify-content: space-between; 
+        font-size: 0.8rem; font-weight: 700; 
+        color: var(--text-secondary); margin-bottom: 8px; 
+        text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .progress-track { 
+        height: 14px; background: rgba(0,0,0,0.04); 
+        border-radius: 10px; overflow: hidden; margin-bottom: 24px; 
+    }
+    .progress-fill { 
+        height: 100%; 
+        background: linear-gradient(90deg, var(--accent-primary), #818cf8); 
+        width: 0%; 
+        border-radius: 10px;
+        position: relative;
+        transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    /* Shimmer Effect */
+    .progress-fill::after {
+        content: ''; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        transform: translateX(-100%);
+        animation: shimmer 2s infinite;
+    }
+    @keyframes shimmer { 100% { transform: translateX(100%); } }
+
+    .savings-fill { background: linear-gradient(90deg, #10b981, #34d399); }
+
+    /* --- Categories (Widget Grid) --- */
+    .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 16px; }
+    .cat-card {
+        background: white; 
+        padding: 20px 15px; 
+        border-radius: 20px; 
+        text-align: center; cursor: pointer;
+        border: 1px solid rgba(0,0,0,0.04);
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); 
+        position: relative;
+        transition: all 0.2s ease;
+    }
+    .cat-card:active { transform: scale(0.95); background: #f8fafc; }
+    .cat-emoji { 
+        font-size: 2.2rem; display: block; margin-bottom: 8px; 
+        filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    }
+    .cat-delete {
+        position: absolute; top: -8px; right: -8px; 
+        background: #ef4444; color: white;
+        border: 2px solid white; border-radius: 50%; 
+        width: 28px; height: 28px; font-weight: bold;
+        cursor: pointer; display: none; box-shadow: 0 4px 10px rgba(239,68,68,0.3);
+    }
+    .editing .cat-delete { display: block; }
+    .editing .cat-card { animation: jiggle 0.3s infinite; }
+    @keyframes jiggle { 0% { transform: rotate(0deg); } 25% { transform: rotate(1deg); } 75% { transform: rotate(-1deg); } }
+
+    /* --- List Items (Swipe Style) --- */
+    .pantry-item, .wishlist-item {
+        display: flex; justify-content: space-between; align-items: center; 
+        background: white; padding: 16px; border-radius: 16px; 
+        margin-bottom: 12px; border: 1px solid #f1f5f9;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    /* Color Coded Borders */
+    .pantry-item { border-left: 4px solid #ef4444; }
+    
+    .wishlist-item.affordable { 
+        background: var(--success-surface); 
+        border-color: var(--success-text);
+        color: var(--success-text);
+    }
+    .afford-badge { 
+        font-size: 0.65rem; background: var(--success-text); color: white; 
+        padding: 4px 8px; border-radius: 10px; margin-left: 8px; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+
+    /* --- Subscriptions Stacking --- */
+    .stack-bar { display: flex; height: 16px; border-radius: 8px; overflow: hidden; margin-bottom: 12px; width: 100%; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
+    .stack-legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 20px; font-weight: 500; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+
+    /* --- Bottom Nav (Contextual Glass) --- */
+    .bottom-nav {
+        position: fixed; bottom: 0; left: 0; width: 100%; 
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border-top: 1px solid rgba(255,255,255,0.5);
+        display: flex; justify-content: space-around; 
+        padding: 16px 0 30px 0; /* Extra padding for iOS home bar */
+        z-index: 100;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.03);
+    }
+    .nav-item { 
+        text-align: center; color: #94a3b8; font-size: 0.7rem; 
+        cursor: pointer; background: none; border: none; flex: 1; 
+        transition: color 0.2s;
+    }
+    .nav-item.active { color: var(--accent-primary); font-weight: 700; transform: translateY(-2px); }
+    .nav-icon { display: block; font-size: 1.6rem; margin-bottom: 4px; transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .nav-item:active .nav-icon { transform: scale(0.8); }
+
+    /* --- Badges & Alerts --- */
+    .waste-alert {
+        background: var(--danger-surface); 
+        color: var(--danger-text);
+        padding: 16px; border-radius: 16px; margin-bottom: 24px;
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+    
+    .waste-alert h4 { margin: 0 0 8px 0; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+
+    .price-hero-badge { 
+        background: var(--warning-surface); border: 1px solid #fde047; 
+        color: var(--warning-text); padding: 12px; border-radius: 12px; 
+        font-size: 0.9rem; margin-bottom: 16px; font-weight: 500;
+    }
+    
+    .hidden { display: none !important; }
+    
+    /* Shopping Mode Override */
+    body.shopping-active { background: #f8fafc; animation: none; }
+    body.shopping-active .glass-card { box-shadow: none; border: 1px solid #e2e8f0; }
+    body.shopping-active .bottom-nav { display: none; }
+    body.shopping-active header { display: none; }
+
+    /* --- GROCERY RIBBON (The Filter) --- */
+    .ribbon-container {
+        display: flex; gap: 10px; overflow-x: auto; 
+        padding-bottom: 10px; margin-bottom: 15px;
+        -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    }
+    .ribbon-container::-webkit-scrollbar { display: none; }
+    
+    .ribbon-pill {
+        white-space: nowrap; padding: 8px 16px; 
+        background: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.5);
+        border-radius: 20px; font-size: 0.85rem; font-weight: 600; 
+        color: var(--text-secondary); cursor: pointer; transition: all 0.2s;
+    }
+    .ribbon-pill.active {
+        background: var(--text-primary); color: white; border-color: var(--text-primary);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* --- ENTRY TILES (The Selector) --- */
+    .sub-cat-grid {
+        display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px;
+    }
+    .sub-cat-tile {
+        background: white; border: 1px solid #e2e8f0; border-radius: 12px;
+        padding: 10px; text-align: center; cursor: pointer; transition: all 0.2s;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .sub-cat-tile.selected {
+        border-color: var(--accent-primary); background: #eef2ff;
+        color: var(--accent-primary); box-shadow: 0 0 0 2px var(--accent-glow);
+    }
+    .tile-icon { font-size: 1.5rem; margin-bottom: 4px; display: block; }
+    .tile-label { font-size: 0.7rem; font-weight: 700; }
+
+    /* --- BENTO GROUP HEADERS --- */
+    .group-header {
+        display: flex; justify-content: space-between; align-items: center;
+        background: white; padding: 12px 16px; border-radius: 16px;
+        margin-top: 15px; margin-bottom: 8px; cursor: pointer;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.03); border: 1px solid #f1f5f9;
+        transition: background 0.2s;
+    }
+    .group-header:active { background: #f8fafc; }
+    .group-title { font-weight: 800; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+    .group-total { font-size: 0.85rem; color: var(--text-secondary); background: #f1f5f9; padding: 4px 8px; border-radius: 8px; }
+    
+    .group-list { overflow: hidden; transition: max-height 0.3s ease; }
+    .group-list.collapsed { max-height: 0; }
+    .chevron { transition: transform 0.3s; font-size: 0.8rem; color: #94a3b8; }
+    .group-list.collapsed + .group-header .chevron { transform: rotate(-90deg); }
+
+    /* --- PLANNER & AGENDA STYLES --- */
+    .plan-card {
+        background: white; border-radius: 16px; padding: 16px; 
+        margin-bottom: 12px; position: relative;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        border-left: 5px solid #cbd5e1; /* Default Grey */
+        transition: transform 0.2s;
+    }
+    
+    .plan-card.confirmed { border-left-color: var(--accent-primary); } /* Blue */
+    .plan-card.suggestion { border-left-color: #fbbf24; background: #fffbeb; } /* Yellow */
+    .plan-card.bill { border-left-color: #ef4444; } /* Red for bills */
+
+    .plan-date-header {
+        font-size: 0.8rem; font-weight: 800; color: var(--text-secondary);
+        margin: 15px 0 5px 5px; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+
+    .plan-actions {
+        display: flex; gap: 8px; margin-top: 12px; padding-top: 12px;
+        border-top: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .sm-btn {
+        padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; 
+        font-weight: 600; cursor: pointer; border: none;
+    }
+    .btn-vote { background: white; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .btn-log { background: var(--accent-primary); color: white; }
+    
+    /* Bento Cards for Cat Grid */
+    .bento-card {
+        background: white; padding: 20px 15px; border-radius: 20px; 
+        text-align: center; cursor: pointer;
+        border: 1px solid rgba(0,0,0,0.04);
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); 
+        position: relative; transition: all 0.2s ease;
+    }
+    .bento-card:active { transform: scale(0.95); background: #f8fafc; }
+    .icon-box { font-size: 1.5rem; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; }
+    .cat-name { font-size: 0.9rem; font-weight: 700; margin-bottom: 5px; }
+    .cat-total { font-size: 0.8rem; color: #64748b; }
+</style>
+</head>
+<body>
+
+<div class="container">
+    
+    <header>
+        <h1 id="headerTitle">Family Hub</h1>
+        <p id="headerSubtitle">Tracking & Planning</p>
+    </header>
+
+    <div id="view-dashboard">
+        
+        <div id="wasteAlert" class="waste-alert hidden">
+            <h4>⏰ Eat These Soon!</h4>
+            <div id="wasteList"></div>
+        </div>
+
+        <div class="glass-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <h3 style="margin:0">Overview</h3>
+                <button onclick="editSettings()" style="background:none; border:none; font-size:1.2em; cursor:pointer;">⚙️</button>
+            </div>
+
+            <div class="progress-label">
+                <span>Total Spent</span>
+                <span id="budgetDisplay">$0 / $2500</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="budgetProgress"></div>
+            </div>
+
+            <div class="progress-label">
+                <span id="goalNameDisplay">Savings Goal</span>
+                <span id="goalDisplay">$0 saved</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill savings-fill" id="barSavings"></div>
+            </div>
+            <div class="glass-card" style="display:flex; align-items:center; justify-content:space-between; background:linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color:white; margin-bottom:0;">
+                <div>
+                    <h3 style="margin:0; font-size:1.1rem;">Shopping Mode</h3>
+                    <p style="margin:0; font-size:0.8rem; opacity:0.7;">Focus on the list</p>
+                </div>
+                <button onclick="toggleShoppingMode()" style="background:rgba(255,255,255,0.2); color:white; border:none; padding:10px 20px; border-radius:20px; font-weight:600; cursor:pointer;">Start</button>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <h3 style="margin-top:0">✨ Family Wishlist</h3>
+            <div id="wishlistContainer"></div>
+            <div style="display:flex; gap:10px; margin-top:10px;">
+                <input type="text" id="wishName" placeholder="Wish (e.g. New Game)" style="margin:0;">
+                <input type="number" id="wishCost" placeholder="$" style="width:70px; margin:0;">
+                <button onclick="addWish()" style="background:var(--accent-primary); color:white; border:none; border-radius:10px; width:40px;">+</button>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h3 style="margin:0">Categories</h3>
+                <button onclick="toggleEditMode()" id="editModeBtn" style="background:none; border:none; color:var(--text-secondary); cursor:pointer; font-weight:600; font-size:0.9em;">Edit</button>
+            </div>
+            <div class="cat-grid" id="catGrid"></div>
+        </div>
+    </div>
+
+    <div id="view-pantry" class="hidden">
+        <div class="glass-card">
+            <h2 style="margin-top:0">Family Pantry 🛒</h2>
+            <p style="font-size:0.9em; color:#666;">Add items we need to buy.</p>
+            <div style="display:flex; gap:10px;">
+                <input type="text" id="pantryInput" placeholder="e.g. Eggs, Detergent">
+                <button onclick="addToPantry()" style="width:50px; background:var(--accent-primary); color:white; border:none; border-radius:12px; margin-bottom:12px; font-size:1.5em; line-height:1;">+</button>
+            </div>
+            <div id="pantryList"></div>
+        </div>
+    </div>
+
+    <div id="view-subs" class="hidden">
+        <div class="glass-card">
+            <h2 style="margin-top:0">Subscription Audit 📅</h2>
+            
+            <div id="subStackContainer" class="hidden">
+                <div class="stack-bar" id="subStackBar"></div>
+                <div class="stack-legend">
+                    <span style="display:flex; align-items:center;"><span class="dot" style="background:var(--stack-stream)"></span>Stream</span>
+                    <span style="display:flex; align-items:center;"><span class="dot" style="background:var(--stack-util)"></span>Utility</span>
+                    <span style="display:flex; align-items:center;"><span class="dot" style="background:var(--stack-gym)"></span>Health</span>
+                    <span style="display:flex; align-items:center;"><span class="dot" style="background:var(--stack-other)"></span>Other</span>
+                </div>
+            </div>
+
+            <div id="subsList"></div>
+        </div>
+    </div>
+
+    <div id="view-recap" class="hidden">
+        <div class="glass-card">
+            <h2 style="margin-top:0; text-align:center;">Monthly Recap</h2>
+            <div style="text-align:center; margin-bottom:20px;">
+                <span style="font-size:2.5rem; font-weight:800;" id="recapTotal">$0.00</span><br>
+                <span class="stat-desc">Total Monthly Obligation</span>
+            </div>
+            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+            <div style="text-align:center;">
+                <span style="font-size:2em;">💸</span>
+                <h3 style="margin:5px 0;">Top Category</h3>
+                <span class="stat-big" style="font-size:1.5em; color:#2D3748; font-weight:700;" id="recapTopCat">-</span>
+            </div>
+            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+            <div style="text-align:center;">
+                <span style="font-size:2em;">🏷️</span>
+                <h3 style="margin:5px 0;">Heaviest Purchase</h3>
+                <span class="stat-big" style="font-size:1.5em; color:#2D3748; font-weight:700;" id="recapBigItem">-</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-plan" class="hidden">
+        
+        <div class="glass-card" style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color:white;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                <span style="opacity:0.8; font-size:0.85rem;">Projected Total</span>
+                <span id="forecastTotal" style="font-weight:700;">$0.00</span>
+            </div>
+            <div class="progress-track" style="background:rgba(255,255,255,0.2); height:8px; margin-bottom:5px;">
+                <div id="forecastFill" class="progress-fill" style="background:#a5b4fc; width:0%;"></div>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:0.75rem; opacity:0.7;">
+                <span id="forecastSpent">Spent: $0</span>
+                <span id="forecastPlanned">Planned: $0</span>
+            </div>
+        </div>
+
+        <button class="action-btn" onclick="openPlanModal()" style="margin-bottom:20px;">+ Add Event / Suggestion</button>
+
+        <div id="planList"></div>
+    </div>
+
+    <div id="planModal" class="hidden" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); backdrop-filter:blur(5px); z-index:200; display:flex; align-items:center; justify-content:center;">
+        <div class="glass-card" style="width:85%; max-width:400px; animation:slideUp 0.3s ease;">
+            <h3>New Plan</h3>
+            <input type="text" id="planName" placeholder="Event Name (e.g. Sunday Lunch)">
+            <div style="display:flex; gap:10px;">
+                <input type="date" id="planDate">
+                <input type="number" id="planCost" placeholder="Est. Cost">
+            </div>
+            
+            <label style="font-size:0.8rem; font-weight:bold; color:#666; margin-top:10px; display:block;">Category & Type</label>
+            <div style="display:flex; gap:10px; margin-bottom:10px;">
+                <select id="planCat">
+                    <option value="Dining">Dining</option>
+                    <option value="Groceries">Groceries</option>
+                    <option value="Home">Home</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Fun">Fun</option>
+                    <option value="Bills">Bills</option>
+                </select>
+                <select id="planType">
+                    <option value="one-time">One-Time</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                </select>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px;">
+                <input type="checkbox" id="planSuggestion" style="width:auto; margin:0;">
+                <label for="planSuggestion" style="font-size:0.9rem;">Mark as "Suggestion" (Needs Vote)</label>
+            </div>
+
+            <div style="display:flex; gap:10px;">
+                <button class="action-btn" onclick="savePlan()">Save Plan</button>
+                <button class="back-btn" onclick="closePlanModal()" style="margin:0; flex:1; text-align:center;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-detail" class="hidden">
+        <button class="back-btn" onclick="switchTab('dashboard')">← Back</button>
+        
+        <div style="margin-bottom:15px;">
+            <h2 id="detailTitle" style="margin:0 0 10px 0; padding-left:5px;">Category</h2>
+            <div id="groceryRibbon" class="ribbon-container hidden"></div>
+        </div>
+
+        <div class="glass-card">
+            
+            <input type="text" id="itemName" placeholder="Item Name (e.g. Milk)" oninput="handleNameInput(this.value)">
+            <div id="priceHeroBadge" class="price-hero-badge hidden"></div>
+
+            <div id="grocerySubCatSelector" class="hidden">
+                <label style="font-size:0.75rem; font-weight:700; color:var(--text-secondary); margin-bottom:8px; display:block;">CATEGORY</label>
+                <div class="sub-cat-grid" id="subCatGrid"></div>
+                <input type="hidden" id="selectedSubCat" value="Other">
+            </div>
+
+            <div style="display:flex; gap:10px;">
+                <input type="text" id="itemStore" placeholder="Store">
+                <input type="number" id="itemQty" placeholder="Qty" style="width:80px" value="1" oninput="calculatePreview()">
+            </div>
+            
+            <div style="display:flex; gap:10px;">
+                <div style="flex:1">
+                    <input type="number" id="itemCost" placeholder="Cost per unit" oninput="calculatePreview()">
+                </div>
+                <div style="flex:1">
+                    <select id="itemFreq" onchange="calculatePreview()">
+                        <option value="One-Time">One-Time</option>
+                        <option value="Monthly">Monthly</option>
+                        <option value="Weekly">Weekly</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="conversionPreview" class="hidden" style="margin-bottom:10px; font-weight:bold; color:var(--accent-primary);"></div>
+
+            <div id="subExtrasGroup" class="hidden">
+                <label style="font-size:0.8em; font-weight:bold; color:#666;">Type & Bill Day</label>
+                <div style="display:flex; gap:10px;">
+                    <select id="subTypeSel">
+                        <option value="Streaming">Streaming</option>
+                        <option value="Utility">Utility</option>
+                        <option value="Health">Health</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <input type="number" id="itemBillDay" placeholder="Day (1-31)" min="1" max="31">
+                </div>
+            </div>
+            <div id="groceryExtrasGroup" class="hidden">
+                <label style="font-size:0.8em; font-weight:bold; color:#666;">Expiry (Days)</label>
+                <input type="number" id="itemExpiry" placeholder="e.g. 5">
+            </div>
+            
+            <button class="action-btn" onclick="addItem()">+ Add Item</button>
+        </div>
+
+        <div id="detailList"></div>
+    </div>
+
+</div>
+
+<div class="bottom-nav">
+    <button class="nav-item active" onclick="switchTab('dashboard')" id="nav-dashboard">
+        <span class="nav-icon">📊</span>Overview
+    </button>
+    <button class="nav-item" onclick="switchTab('pantry')" id="nav-pantry">
+        <span class="nav-icon">🛒</span>Pantry
+    </button>
+    <button class="nav-item" onclick="switchTab('plan')" id="nav-plan">
+        <span class="nav-icon">📅</span>Plan
+    </button>
+    <button class="nav-item" onclick="switchTab('subs')" id="nav-subs">
+        <span class="nav-icon">🔄</span>Subs
+    </button>
+    <button class="nav-item" onclick="switchTab('recap')" id="nav-recap">
+        <span class="nav-icon">📉</span>Recap
+    </button>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<script>
+    // --- FIREBASE CONFIG ---
+    const firebaseConfig = {
+        apiKey: "AIzaSyCxN_0kLIJXs9tFF-c6M3JpNwgbto5f7fk",
+        authDomain: "appfamiliaserrano2026.firebaseapp.com",
+        projectId: "appfamiliaserrano2026",
+        storageBucket: "appfamiliaserrano2026.firebasestorage.app",
+        messagingSenderId: "565355002446",
+        appId: "1:565355002446:web:f569e8391e29e136dfe11f"
+    };
+
+    // Initialize Firebase (Compat Style)
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Enable Offline Mode
+    db.enablePersistence().catch(err => {
+        if (err.code == 'failed-precondition') console.log("Persistence failed: Tab open");
+        else if (err.code == 'unimplemented') console.log("Persistence not supported");
+    });
+
+    // --- DATA & CONFIG ---
+    let data = {
+        budget: 2500,
+        savingsGoal: 1000,
+        savingsCurrent: 250,
+        expenses: [],
+        plans: [],
+        pantry: [],
+        wishlist: [],
+        currentUser: 'Me'
+    };
+
+    // UI State
+    let activeCategory = null;
+    let currentTab = 'dashboard';
+    let activeSubFilter = 'all';
+    let collapsedGroups = [];
+    let shoppingMode = false;
+
+    const CATEGORIES = [
+        { id: 'Groceries', icon: '🛒', color: '#10b981' }, 
+        { id: 'Dining', icon: '🍔', color: '#f59e0b' },    
+        { id: 'Home', icon: '🏠', color: '#6366f1' },      
+        { id: 'Transport', icon: '⛽', color: '#ef4444' }, 
+        { id: 'Fun', icon: '🎉', color: '#8b5cf6' },       
+        { id: 'Bills', icon: '📄', color: '#64748b' }      
+    ];
+
+    const GROCERY_SUBS = [
+        { id: 'protein', label: 'Proteins', icon: '🥩' },
+        { id: 'veg', label: 'Produce', icon: '🥦' },
+        { id: 'carb', label: 'Carbs', icon: '🍞' },
+        { id: 'dairy', label: 'Dairy', icon: '🧀' },
+        { id: 'drink', label: 'Drinks', icon: '🥤' },
+        { id: 'clean', label: 'Cleaning', icon: '🧼' },
+        { id: 'snack', label: 'Snacks', icon: '🍪' },
+        { id: 'other', label: 'Other', icon: '📦' }
+    ];
+
+    // --- SYNC ENGINE ---
+    function saveData() {
+        db.collection("familyData").doc("globalState").set(data)
+            .then(() => console.log("Saved to Cloud"))
+            .catch((e) => console.error("Save Error", e));
+    }
+
+    // LIVE LISTENER
+    db.collection("familyData").doc("globalState").onSnapshot((doc) => {
+        if (doc.exists) {
+            const cloudData = doc.data();
+            // Merge defaults for missing fields
+            data = { 
+                budget: 2500, savingsGoal:1000, savingsCurrent:0, 
+                expenses:[], plans:[], pantry:[], wishlist:[], 
+                ...cloudData 
+            };
+            
+            // Refresh Views
+            if (currentTab === 'dashboard') renderDashboard();
+            if (currentTab === 'plan') renderPlanList();
+            if (currentTab === 'detail') renderDetailList();
+            if (currentTab === 'pantry') renderPantry();
+            if (currentTab === 'recap') renderRecap();
+        } else {
+            saveData();
+        }
+    });
+
+    // --- VIEW FUNCTIONS ---
+    function switchTab(tab) {
+        currentTab = tab;
+        ['dashboard','pantry','subs','recap','detail','plan'].forEach(id => {
+            const el = document.getElementById('view-'+id);
+            if(el) el.classList.add('hidden');
+        });
+        
+        const target = document.getElementById('view-'+tab);
+        if(target) target.classList.remove('hidden');
+
+        document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+        const navBtn = document.getElementById('nav-'+tab);
+        if(navBtn) navBtn.classList.add('active');
+
+        if (tab === 'dashboard') renderDashboard();
+        if (tab === 'pantry') renderPantry();
+        if (tab === 'plan') renderPlanList();
+        if (tab === 'recap') renderRecap();
+    }
+
+    function openCategory(cat) {
+        activeCategory = cat;
+        currentTab = 'detail';
+        activeSubFilter = 'all';
+
+        // Switch View
+        ['dashboard','pantry','subs','recap','plan'].forEach(v => document.getElementById('view-'+v).classList.add('hidden'));
+        document.getElementById('view-detail').classList.remove('hidden');
+        document.getElementById('detailTitle').innerText = cat;
+
+        // Toggle Extras
+        const isFood = cat === 'Groceries';
+        const isSub = cat === 'Bills'; // Using Bills for Subs logic overlap if needed
+        
+        const subGrp = document.getElementById('subExtrasGroup');
+        if(subGrp) subGrp.classList.toggle('hidden', !isSub);
+        
+        const grocGrp = document.getElementById('groceryExtrasGroup');
+        if(grocGrp) grocGrp.classList.toggle('hidden', !isFood);
+
+        // Toggle Ribbon
+        const ribbon = document.getElementById('groceryRibbon');
+        const selector = document.getElementById('grocerySubCatSelector');
+        
+        if (isFood) {
+            ribbon.classList.remove('hidden');
+            selector.classList.remove('hidden');
+            renderGroceryRibbon();
+            renderGroceryTiles();
+        } else {
+            ribbon.classList.add('hidden');
+            selector.classList.add('hidden');
+        }
+        
+        renderDetailList();
+    }
+
+    // --- RENDERERS ---
+
+    function renderDashboard() {
+        if(!data.expenses) data.expenses = [];
+        
+        // 1. Budget Bar
+        const total = data.expenses.reduce((acc, curr) => {
+            let cost = parseFloat(curr.cost) * parseFloat(curr.qty);
+            if(curr.freq === 'Weekly') cost *= 4.33;
+            return acc + cost;
+        }, 0);
+
+        const remain = data.budget - total;
+        const percent = Math.min((total / data.budget) * 100, 100);
+
+        document.getElementById('budgetDisplay').innerText = `$${total.toFixed(0)} / $${data.budget}`;
+        
+        const pBar = document.getElementById('budgetProgress');
+        pBar.style.width = `${percent}%`;
+        if(percent > 90) pBar.style.background = '#ef4444';
+        else if(percent > 70) pBar.style.background = '#f59e0b';
+        else pBar.style.background = '#10b981';
+
+        // 2. Savings Bar
+        const sGoal = data.savingsGoal || 1000;
+        const sCurr = data.savingsCurrent || 0;
+        const sPct = Math.min((sCurr / sGoal) * 100, 100);
+        document.getElementById('goalDisplay').innerText = `$${sCurr} saved`;
+        document.getElementById('barSavings').style.width = `${sPct}%`;
+
+        // 3. Wishlist
+        const wCont = document.getElementById('wishlistContainer');
+        wCont.innerHTML = '';
+        data.wishlist.forEach(w => {
+            const isAffordable = (remain > w.cost);
+            const div = document.createElement('div');
+            div.className = `wishlist-item ${isAffordable ? 'affordable' : ''}`;
+            div.innerHTML = `
+                <div>
+                    <b>${w.name}</b>
+                    ${isAffordable ? '<span class="afford-badge">Buy Now</span>' : ''}
+                </div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span>$${w.cost}</span>
+                    <button onclick="delWish(${w.id})" style="color:#ef4444; border:none; background:none;">✕</button>
+                </div>
+            `;
+            wCont.appendChild(div);
+        });
+
+        // 4. Perishable Alerts (Eat Soon)
+        const wasteList = document.getElementById('wasteList');
+        const wasteAlert = document.getElementById('wasteAlert');
+        wasteList.innerHTML = '';
+        const dying = data.pantry.filter(i => i.expiry && i.expiry < 3); // Simple logic
+        if(dying.length > 0) {
+            wasteAlert.classList.remove('hidden');
+            wasteList.innerHTML = dying.map(d => `<span style="background:white; padding:2px 6px; border-radius:4px; font-size:0.8rem; margin-right:5px;">${d.name}</span>`).join('');
+        } else {
+            wasteAlert.classList.add('hidden');
+        }
+
+        // 5. Grid
+        const grid = document.getElementById('catGrid');
+        grid.innerHTML = '';
+        
+        CATEGORIES.forEach(cat => {
+            const catTotal = data.expenses
+                .filter(e => e.cat === cat.id)
+                .reduce((acc, curr) => acc + (curr.freq==='Weekly'?curr.cost*curr.qty*4.33 : curr.cost*curr.qty), 0);
+
+            const card = document.createElement('div');
+            card.className = 'bento-card';
+            card.onclick = () => openCategory(cat.id);
+            card.innerHTML = `
+                <div class="icon-box" style="background:${cat.color}20; color:${cat.color}">${cat.icon}</div>
+                <div class="cat-name">${cat.id}</div>
+                <div class="cat-total">$${catTotal.toFixed(0)}</div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    function renderGroceryRibbon() {
+        const r = document.getElementById('groceryRibbon');
+        r.innerHTML = '';
+        
+        const allBtn = document.createElement('div');
+        allBtn.className = `ribbon-pill ${activeSubFilter === 'all' ? 'active' : ''}`;
+        allBtn.innerText = "All Items";
+        allBtn.onclick = () => { activeSubFilter = 'all'; renderGroceryRibbon(); renderDetailList(); };
+        r.appendChild(allBtn);
+
+        GROCERY_SUBS.forEach(sub => {
+            const btn = document.createElement('div');
+            btn.className = `ribbon-pill ${activeSubFilter === sub.id ? 'active' : ''}`;
+            btn.innerText = `${sub.icon} ${sub.label}`;
+            btn.onclick = () => { activeSubFilter = sub.id; renderGroceryRibbon(); renderDetailList(); };
+            r.appendChild(btn);
+        });
+    }
+
+    function renderGroceryTiles() {
+        const grid = document.getElementById('subCatGrid');
+        grid.innerHTML = '';
+        const currentSel = document.getElementById('selectedSubCat').value || 'other';
+
+        GROCERY_SUBS.forEach(sub => {
+            const tile = document.createElement('div');
+            tile.className = `sub-cat-tile ${currentSel === sub.id ? 'selected' : ''}`;
+            tile.innerHTML = `<span class="tile-icon">${sub.icon}</span><span class="tile-label">${sub.label}</span>`;
+            tile.onclick = () => {
+                document.getElementById('selectedSubCat').value = sub.id;
+                renderGroceryTiles();
+            };
+            grid.appendChild(tile);
+        });
+    }
+
+    function renderDetailList() {
+        const list = document.getElementById('detailList'); 
+        list.innerHTML = '';
+        
+        const items = data.expenses.filter(e => e.cat === activeCategory);
+
+        // Plain List
+        if (activeCategory !== 'Groceries') {
+            items.reverse().forEach(item => list.appendChild(createItemCard(item)));
+            return;
+        }
+
+        // Grouped List for Groceries
+        let groups = {};
+        GROCERY_SUBS.forEach(s => groups[s.id] = []);
+        items.forEach(item => {
+            const sc = item.subCat || 'other';
+            if(groups[sc]) groups[sc].push(item);
+            else if(groups['other']) groups['other'].push(item);
+        });
+
+        GROCERY_SUBS.forEach(sub => {
+            const groupItems = groups[sub.id];
+            if (!groupItems || groupItems.length === 0) return;
+            if (activeSubFilter !== 'all' && activeSubFilter !== sub.id) return;
+
+            const groupTotal = groupItems.reduce((acc, i) => acc + (i.freq==='Weekly'?i.cost*i.qty*4.33 : i.cost*i.qty), 0);
+            const isCollapsed = collapsedGroups.includes(sub.id);
+
+            const header = document.createElement('div');
+            header.className = 'group-header';
+            header.innerHTML = `
+                <div class="group-title">
+                    <span>${sub.icon} ${sub.label}</span>
+                    <span class="chevron" style="transform: ${isCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)'}">▼</span>
+                </div>
+                <div class="group-total">$${groupTotal.toFixed(2)}</div>
+            `;
+            header.onclick = () => {
+                if(isCollapsed) collapsedGroups = collapsedGroups.filter(id => id !== sub.id);
+                else collapsedGroups.push(sub.id);
+                renderDetailList();
+            };
+
+            const itemContainer = document.createElement('div');
+            itemContainer.className = `group-list ${isCollapsed ? 'collapsed' : ''}`;
+            
+            groupItems.reverse().forEach(item => itemContainer.appendChild(createItemCard(item)));
+
+            list.appendChild(header);
+            list.appendChild(itemContainer);
+        });
+    }
+
+    function createItemCard(item) {
+        const div = document.createElement('div'); 
+        div.className = 'glass-card';
+        div.style.padding = '15px'; div.style.marginBottom='10px';
+        
+        const mCost = item.freq==='Weekly' ? item.cost*item.qty*4.33 : item.cost*item.qty;
+        
+        div.innerHTML = `
+            <div style="display:flex; justify-content:space-between;">
+                <div>
+                    <b>${item.name}</b> <small style="color:#666">@ ${item.store||'?'}</small><br>
+                    <small>${item.qty} x $${item.cost} (${item.freq})</small>
+                    <div style="font-size:0.7rem; color:#999; margin-top:2px;">Added by: ${item.addedBy || 'Family'}</div>
+                </div>
+                <div style="text-align:right">
+                    <b>$${mCost.toFixed(2)}/mo</b><br>
+                    <button onclick="delEx(${item.id})" style="color:#ef4444; background:none; border:none; font-weight:bold; cursor:pointer;">Remove</button>
+                </div>
+            </div>`;
+        return div;
+    }
+
+    function renderPlanList() {
+        const list = document.getElementById('planList');
+        if(!list) return;
+        list.innerHTML = '';
+        if(!data.plans) data.plans = [];
+
+        const sorted = data.plans.sort((a,b) => new Date(a.date) - new Date(b.date));
+        
+        // Forecast Calc
+        const currentSpent = data.expenses.reduce((acc, e) => {
+             return acc + (e.freq==='Weekly'?e.cost*e.qty*4.33 : e.cost*e.qty);
+        }, 0);
+
+        const plannedTotal = sorted.reduce((acc, p) => p.status === 'confirmed' ? acc + p.cost : acc, 0);
+        const grandTotal = currentSpent + plannedTotal;
+
+        document.getElementById('forecastTotal').innerText = `$${grandTotal.toFixed(2)}`;
+        document.getElementById('forecastSpent').innerText = `Spent: $${currentSpent.toFixed(0)}`;
+        document.getElementById('forecastPlanned').innerText = `Planned: $${plannedTotal.toFixed(0)}`;
+        document.getElementById('forecastFill').style.width = `${Math.min((grandTotal / data.budget) * 100, 100)}%`;
+
+        let lastDate = '';
+        sorted.forEach(plan => {
+            if (plan.date !== lastDate) {
+                const header = document.createElement('div');
+                header.className = 'plan-date-header';
+                const d = new Date(plan.date);
+                header.innerText = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+                list.appendChild(header);
+                lastDate = plan.date;
+            }
+
+            const card = document.createElement('div');
+            let styleClass = plan.status; 
+            if (plan.cat === 'Bills') styleClass = 'bill';
+            card.className = `plan-card ${styleClass}`;
+            
+            let btns = '';
+            if (plan.status === 'suggestion') {
+                btns = `<div class="plan-actions">
+                    <span style="font-size:0.75rem; color:#b45309; margin-right:auto;">Vote:</span>
+                    <button class="sm-btn btn-vote" onclick="votePlan(${plan.id}, true)">👍</button>
+                    <button class="sm-btn btn-vote" onclick="deletePlan(${plan.id})">👎</button>
+                </div>`;
+            } else {
+                btns = `<div class="plan-actions">
+                    <button class="sm-btn btn-log" onclick="logPlanAsActual(${plan.id})">✔ Paid</button>
+                    <button class="sm-btn" style="color:#ef4444; background:none;" onclick="deletePlan(${plan.id})">Cancel</button>
+                </div>`;
+            }
+
+            card.innerHTML = `
+                <div style="display:flex; justify-content:space-between;">
+                    <div>
+                        <div style="font-weight:700;">${plan.name}</div>
+                        <div style="font-size:0.8rem; color:var(--text-secondary);">${plan.cat} • ${plan.addedBy||'Fam'}</div>
+                    </div>
+                    <div style="font-weight:700;">$${plan.cost}</div>
+                </div>
+                ${btns}
+            `;
+            list.appendChild(card);
+        });
+    }
+
+    function renderPantry() {
+        const list = document.getElementById('pantryList');
+        if(!list) return;
+        list.innerHTML = '';
+        data.pantry.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'pantry-item';
+            div.innerHTML = `
+                <div>
+                    <b>${item.name}</b>
+                    ${shoppingMode ? '<br><small>Location: Aisle 3</small>' : ''}
+                </div>
+                <button onclick="delPantry(${item.id})" style="background:none; border:none; color:#ef4444; font-weight:bold;">✕</button>
+            `;
+            list.appendChild(div);
+        });
+    }
+
+    function renderRecap() {
+        const cats = {};
+        let biggest = { name:'-', cost:0 };
+        let total = 0;
+
+        data.expenses.forEach(e => {
+            const cost = (e.freq==='Weekly' ? e.cost*e.qty*4.33 : e.cost*e.qty);
+            total += cost;
+            if(!cats[e.cat]) cats[e.cat] = 0;
+            cats[e.cat] += cost;
+            if(cost > biggest.cost) biggest = { name:e.name, cost:cost };
+        });
+
+        // Find top cat
+        let topCat = '-'; let topVal = 0;
+        for(let c in cats) {
+            if(cats[c] > topVal) { topVal = cats[c]; topCat = c; }
+        }
+
+        document.getElementById('recapTotal').innerText = `$${total.toFixed(2)}`;
+        document.getElementById('recapTopCat').innerText = `${topCat} ($${topVal.toFixed(0)})`;
+        document.getElementById('recapBigItem').innerText = `${biggest.name} ($${biggest.cost.toFixed(0)})`;
+    }
+
+    // --- ACTIONS ---
+
+    function addItem() {
+        const name = document.getElementById('itemName').value;
+        const cost = parseFloat(document.getElementById('itemCost').value);
+        const qty = parseFloat(document.getElementById('itemQty').value) || 1;
+        const store = document.getElementById('itemStore').value;
+        const freq = document.getElementById('itemFreq').value;
+        
+        let subCat = 'other';
+        if (activeCategory === 'Groceries') {
+            const el = document.getElementById('selectedSubCat');
+            if(el) subCat = el.value;
+        }
+
+        if(name && cost) {
+            data.expenses.push({
+                id: Date.now(),
+                cat: activeCategory,
+                subCat: subCat,
+                name, cost, qty, store, freq,
+                addedBy: data.currentUser,
+                date: new Date().toISOString()
+            });
+            saveData();
+            document.getElementById('itemName').value = '';
+            document.getElementById('itemCost').value = '';
+            switchTab('detail'); // Refresh list
+        } else {
+            alert("Please fill Name and Cost");
+        }
+    }
+
+    function delEx(id) {
+        if(confirm('Delete item?')) {
+            data.expenses = data.expenses.filter(e => e.id !== id);
+            saveData();
+        }
+    }
+
+    // Pantry Logic
+    function addToPantry() {
+        const input = document.getElementById('pantryInput');
+        if(input.value) {
+            data.pantry.push({ id: Date.now(), name: input.value, checked: false });
+            saveData();
+            input.value = '';
+        }
+    }
+    function delPantry(id) {
+        data.pantry = data.pantry.filter(i => i.id !== id);
+        saveData();
+    }
+    function toggleShoppingMode() {
+        shoppingMode = !shoppingMode;
+        document.body.classList.toggle('shopping-active', shoppingMode);
+        renderPantry();
+    }
+
+    // Wishlist Logic
+    function addWish() {
+        const n = document.getElementById('wishName').value;
+        const c = parseFloat(document.getElementById('wishCost').value);
+        if(n && c) {
+            data.wishlist.push({ id:Date.now(), name:n, cost:c });
+            saveData();
+            document.getElementById('wishName').value = '';
+            document.getElementById('wishCost').value = '';
+        }
+    }
+    function delWish(id) {
+        data.wishlist = data.wishlist.filter(w => w.id !== id);
+        saveData();
+    }
+
+    // Helpers
+    function handleNameInput(val) {
+        // Mock Hero Badge
+        const badge = document.getElementById('priceHeroBadge');
+        if(val.toLowerCase().includes('milk')) {
+            badge.classList.remove('hidden');
+            badge.innerText = "💡 Last paid: $3.50 at Aldi";
+        } else {
+            badge.classList.add('hidden');
+        }
+    }
+
+    function calculatePreview() {
+        const cost = parseFloat(document.getElementById('itemCost').value) || 0;
+        const qty = parseFloat(document.getElementById('itemQty').value) || 1;
+        const freq = document.getElementById('itemFreq').value;
+        const preview = document.getElementById('conversionPreview');
+        
+        if(cost > 0) {
+            let total = cost * qty;
+            if(freq === 'Weekly') total *= 4.33;
+            preview.classList.remove('hidden');
+            preview.innerText = `Monthly Impact: $${total.toFixed(2)}`;
+        } else {
+            preview.classList.add('hidden');
+        }
+    }
+
+    // Plan Actions
+    function openPlanModal() { document.getElementById('planModal').classList.remove('hidden'); document.getElementById('planDate').valueAsDate = new Date(); }
+    function closePlanModal() { document.getElementById('planModal').classList.add('hidden'); }
+    
+    function savePlan() {
+        const name = document.getElementById('planName').value;
+        const cost = parseFloat(document.getElementById('planCost').value);
+        const date = document.getElementById('planDate').value;
+        const cat = document.getElementById('planCat').value;
+        const type = document.getElementById('planType').value;
+        const isSugg = document.getElementById('planSuggestion').checked;
+
+        if(name && date) {
+            data.plans.push({
+                id: Date.now(),
+                name, cost, date, cat, type,
+                addedBy: data.currentUser,
+                status: isSugg ? 'suggestion' : 'confirmed'
+            });
+            saveData();
+            closePlanModal();
+        }
+    }
+
+    function votePlan(id, approved) {
+        const p = data.plans.find(x => x.id === id);
+        if(approved && p) { p.status = 'confirmed'; saveData(); }
+    }
+    
+    function deletePlan(id) {
+        if(confirm("Remove plan?")) { data.plans = data.plans.filter(p => p.id !== id); saveData(); }
+    }
+
+    function logPlanAsActual(id) {
+        const p = data.plans.find(x => x.id === id);
+        if(!p) return;
+        data.expenses.push({
+            id: Date.now(),
+            name: p.name, cost: p.cost, qty: 1,
+            cat: p.cat, subCat: 'other', store: 'Planned', freq: 'Monthly',
+            addedBy: p.addedBy, date: new Date().toISOString()
+        });
+        // Logic for recurring plans
+        if (p.type === 'weekly') {
+            const d = new Date(p.date); d.setDate(d.getDate() + 7); p.date = d.toISOString().split('T')[0];
+        } else if (p.type === 'monthly') {
+            const d = new Date(p.date); d.setMonth(d.getMonth() + 1); p.date = d.toISOString().split('T')[0];
+        } else {
+            data.plans = data.plans.filter(x => x.id !== id);
+        }
+        saveData();
+    }
+
+    // Init
+    window.onload = function() {
+        switchTab('dashboard');
+    }
+
+</script>
+</body>
+</html>
